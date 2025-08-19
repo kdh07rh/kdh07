@@ -21,8 +21,8 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         try {
-            User user = userDAO.getUserByUsername(username);
-            if (user != null && user.getPassword().equals(password)) { // Plain text password check
+            User user = userDAO.authenticateUser(username, password);
+            if (user != null) { // authenticateUser handles password check
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 response.sendRedirect("products");

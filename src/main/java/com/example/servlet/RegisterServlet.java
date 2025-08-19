@@ -24,7 +24,7 @@ public class RegisterServlet extends HttpServlet {
         user.setPassword(password); // In a real app, hash the password!
 
         try {
-            userDAO.addUser(user);
+            userDAO.registerUser(user);
             response.sendRedirect("login.jsp?success=true");
         } catch (SQLException e) {
             // Handle cases like duplicate username

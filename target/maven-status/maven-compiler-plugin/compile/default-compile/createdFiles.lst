@@ -7,6 +7,7 @@ com/example/dao/UserDAO.class
 com/example/model/CartItem.class
 com/example/servlet/ConnectionLeakServlet.class
 com/example/model/User.class
+com/example/servlet/ProfileServlet.class
 com/example/servlet/MemoryLeakServlet.class
 com/example/servlet/LockContentionServlet.class
 com/example/dao/ProductDAO.class
@@ -16,4 +17,3 @@ com/example/servlet/RegisterServlet.class
 com/example/servlet/CartServlet.class
 com/example/model/Product.class
 com/example/servlet/InfiniteLoopServlet.class
-com/example/util/DatabaseUtil.class

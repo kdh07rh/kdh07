@@ -3,10 +3,8 @@ package com.example.model;
 public class CartItem {
     private int id;
     private int userId;
-    private int productId;
     private int quantity;
-    private String productName; // Join from products table
-    private double productPrice; // Join from products table
+    private Product product; // Reference to the Product object
 
     // Getters and Setters
     public int getId() {
@@ -21,28 +19,16 @@ public class CartItem {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-    public int getProductId() {
-        return productId;
-    }
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
     public int getQuantity() {
         return quantity;
     }
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    public String getProductName() {
-        return productName;
+    public Product getProduct() {
+        return product;
     }
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-    public double getProductPrice() {
-        return productPrice;
-    }
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

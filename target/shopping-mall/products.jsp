@@ -7,6 +7,21 @@
 <div class="row">
     <div class="col-lg-12">
         <h2 class="my-4">Our Products</h2>
+
+        <!-- Search Form -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <form action="products" method="get" class="form-inline">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Search for products..." value="<c:out value='${searchTerm}'/>">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <table class="table table-hover">
             <thead class="table-dark">
                 <tr>
@@ -18,7 +33,7 @@
             <tbody>
                 <c:forEach var="product" items="${productList}">
                     <tr>
-                        <td><c:out value="${product.name}" /></td>
+                        <td><a href="${pageContext.request.contextPath}/products?id=${product.id}"><c:out value="${product.name}" /></a></td>
                         <td><fmt:formatNumber value="${product.price}" type="currency" currencySymbol="₩" /></td>
                         <td class="text-center">
                             <c:if test="${sessionScope.user != null}">

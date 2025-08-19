@@ -18,11 +18,28 @@ public class ProductServlet extends HttpServlet {
     private ProductDAO productDAO = new ProductDAO();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String idParam = request.getParameter("id");
+        String searchTerm = request.getParameter("search");
+
         try {
-            List<Product> productList = productDAO.getAllProducts();
-            request.setAttribute("productList", productList);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("products.jsp");
-            dispatcher.forward(request, response);
+            if (idParam != null) {
+                int productId = Integer.parseInt(idParam);
+                Product product = productDAO.getProductById(productId);
+                request.setAttribute("product", product);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("product-details.jsp");
+                dispatcher.forward(request, response);
+            } else if (searchTerm != null) {
+                List<Product> productList = productDAO.searchProducts(searchTerm);
+                request.setAttribute("productList", productList);
+                request.setAttribute("searchTerm", searchTerm);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("products.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                List<Product> productList = productDAO.getAllProducts();
+                request.setAttribute("productList", productList);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("products.jsp");
+                dispatcher.forward(request, response);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Error retrieving products", e);

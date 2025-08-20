@@ -1,7 +1,9 @@
 /WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/servlet/DiskIoServlet.java
 /WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/model/CartItem.java
 /WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/dao/ProductDAO.java
+/WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/servlet/HeavyLoggingServlet.java
 /WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/model/Product.java
+/WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/servlet/ProductAnalysisServlet.java
 /WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/servlet/LogoutServlet.java
 /WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/servlet/SlowQueryServlet.java
 /WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/servlet/CartServlet.java
@@ -9,6 +11,8 @@
 /WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/servlet/ProductServlet.java
 /WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/dao/UserDAO.java
 /WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/servlet/ExternalApiServlet.java
+/WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/servlet/ThreadBottleneckServlet.java
+/WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/servlet/ForceOOMServlet.java
 /WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/servlet/ConnectionLeakServlet.java
 /WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/servlet/InfiniteLoopServlet.java
 /WAS/tomcat/test_shop/project/shopping-mall/src/main/java/com/example/dao/CartDAO.java

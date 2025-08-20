@@ -1,6 +1,8 @@
 com/example/servlet/ProductServlet.class
 com/example/dao/CartDAO.class
+com/example/servlet/ThreadBottleneckServlet.class
 com/example/servlet/DiskIoServlet.class
+com/example/servlet/ForceOOMServlet.class
 com/example/servlet/LogoutServlet.class
 com/example/servlet/ExternalApiServlet.class
 com/example/dao/UserDAO.class
@@ -11,9 +13,12 @@ com/example/servlet/ProfileServlet.class
 com/example/servlet/MemoryLeakServlet.class
 com/example/servlet/LockContentionServlet.class
 com/example/dao/ProductDAO.class
+com/example/servlet/ProductAnalysisServlet$ProductAnalysisResult.class
 com/example/servlet/LoginServlet.class
 com/example/servlet/SlowQueryServlet.class
+com/example/servlet/HeavyLoggingServlet.class
 com/example/servlet/RegisterServlet.class
 com/example/servlet/CartServlet.class
 com/example/model/Product.class
+com/example/servlet/ProductAnalysisServlet.class
 com/example/servlet/InfiniteLoopServlet.class

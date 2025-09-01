@@ -16,8 +16,8 @@ public class MemoryLeakServlet extends HttpServlet {
     private static final List<byte[]> memoryHog = new ArrayList<>();
     private static final Random random = new Random();
     
-    // 개선: 누수 제한을 크게 늘려서 더 심각한 누수 시나리오 구현
-    private static final int MAX_MEMORY_MB = 800; // 800MB까지 누수 허용 (기존 120MB에서 증가)
+    // 개선: 더 안전한 누수 제한으로 조정 (모니터링 시간 확보)
+    private static final int MAX_MEMORY_MB = 400; // 400MB까지 누수 허용 (800MB에서 감소)
     private static long requestCount = 0;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -54,24 +54,28 @@ public class MemoryLeakServlet extends HttpServlet {
                 new java.util.Date(), usedMemory, maxMemory, memoryUsagePercent, memoryHog.size(), requestCount
             ));
             
-            // 개선: 더 공격적인 누수 패턴으로 변경
+            // 개선: 더 점진적인 누수 패턴으로 변경 (모니터링 시간 확보)
             if (memoryUsagePercent > 85) {
                 // 85% 초과시: 최소한의 정리만 + 지연
                 performMinimalCleanup();
                 performMaintenanceWork();
                 System.out.println("MemoryLeakServlet: Critical memory usage - minimal cleanup only");
-            } else if (memoryUsagePercent > 65) {
-                // 65-85%: 강력한 누수 + CPU 부하
-                performAggressiveMemoryLeak();
-                performHeavyMemoryPressureWork();
-                performExtendedCPUWork();
-                System.out.println("MemoryLeakServlet: High memory usage - aggressive leak mode");
+            } else if (memoryUsagePercent > 70) {
+                // 70-85%: 중간 수준 누수 (기존 65%에서 상향)
+                performModerateMemoryLeak();
+                performLightMemoryPressureWork();
+                performBasicCPUWork();
+                System.out.println("MemoryLeakServlet: High memory usage - moderate leak mode");
+            } else if (memoryUsagePercent > 50) {
+                // 50-70%: 점진적 누수 (새로 추가)
+                performGradualMemoryLeak();
+                performLightMemoryPressureWork();
+                System.out.println("MemoryLeakServlet: Medium memory usage - gradual leak mode");
             } else if (memoryHog.size() < MAX_MEMORY_MB) {
-                // 65% 미만: 매우 공격적 누수
-                performVeryAggressiveMemoryLeak();
-                performHeavyMemoryPressureWork();
-                performExtendedCPUWork();
-                System.out.println("MemoryLeakServlet: Low memory usage - very aggressive leak mode");
+                // 50% 미만: 안전한 초기 누수
+                performSafeMemoryLeak();
+                performBasicCPUWork();
+                System.out.println("MemoryLeakServlet: Low memory usage - safe leak mode");
             } else {
                 // 최대 누수량 도달: 현재 상태 유지
                 performHighIntensityMaintenance();
@@ -103,10 +107,10 @@ public class MemoryLeakServlet extends HttpServlet {
         request.getRequestDispatcher("memory-leak-test.jsp").forward(request, response);
     }
     
-    // 개선: 더 공격적인 누수 메서드들
-    private void performVeryAggressiveMemoryLeak() {
-        // 50-80MB 메모리 누수 (기존 30-50MB에서 증가)
-        int leakSizeMB = 50 + random.nextInt(31);
+    // 개선: 더 점진적인 누수 메서드들 (모니터링 시간 확보)
+    private void performSafeMemoryLeak() {
+        // 5-15MB 안전한 초기 누수
+        int leakSizeMB = 5 + random.nextInt(11);
         for (int i = 0; i < leakSizeMB; i++) {
             byte[] leak = new byte[1024 * 1024];
             // 실제 데이터로 채워서 GC 최적화 방지
@@ -115,12 +119,12 @@ public class MemoryLeakServlet extends HttpServlet {
             }
             memoryHog.add(leak);
         }
-        System.out.println("MemoryLeakServlet: Very aggressive leak - added " + leakSizeMB + " MB");
+        System.out.println("MemoryLeakServlet: Safe leak - added " + leakSizeMB + " MB");
     }
     
-    private void performAggressiveMemoryLeak() {
-        // 30-50MB 메모리 누수
-        int leakSizeMB = 30 + random.nextInt(21);
+    private void performGradualMemoryLeak() {
+        // 10-25MB 점진적 누수
+        int leakSizeMB = 10 + random.nextInt(16);
         for (int i = 0; i < leakSizeMB; i++) {
             byte[] leak = new byte[1024 * 1024];
             // 실제 데이터로 채워서 GC 최적화 방지
@@ -129,35 +133,50 @@ public class MemoryLeakServlet extends HttpServlet {
             }
             memoryHog.add(leak);
         }
-        System.out.println("MemoryLeakServlet: Aggressive leak - added " + leakSizeMB + " MB");
+        System.out.println("MemoryLeakServlet: Gradual leak - added " + leakSizeMB + " MB");
     }
     
-    private void performHeavyMemoryPressureWork() {
-        // 임시 메모리 압박 (200-300MB)
+    private void performModerateMemoryLeak() {
+        // 20-35MB 중간 수준 누수 (기존 공격적 누수를 완화)
+        int leakSizeMB = 20 + random.nextInt(16);
+        for (int i = 0; i < leakSizeMB; i++) {
+            byte[] leak = new byte[1024 * 1024];
+            // 실제 데이터로 채워서 GC 최적화 방지
+            for (int j = 0; j < leak.length; j += 1024) {
+                leak[j] = (byte) random.nextInt(256);
+            }
+            memoryHog.add(leak);
+        }
+        System.out.println("MemoryLeakServlet: Moderate leak - added " + leakSizeMB + " MB");
+    }
+    
+    // 가벼운 메모리 압박 작업
+    private void performLightMemoryPressureWork() {
+        // 임시 메모리 압박 (50-100MB) - 기존 200-300MB에서 감소
         List<byte[]> tempMemory = new ArrayList<>();
         
         try {
-            int tempSize = 200 + random.nextInt(101);
+            int tempSize = 50 + random.nextInt(51);
             for (int i = 0; i < tempSize; i++) {
                 tempMemory.add(new byte[1024 * 1024]);
                 
-                // CPU 작업과 지연
-                if (i % 3 == 0) {
-                    performCPUWork();
+                // 가벼운 CPU 작업과 지연
+                if (i % 5 == 0) {
+                    performBasicCPUWork();
                     Thread.yield();
                     
                     try {
-                        Thread.sleep(8); // 8ms 지연
+                        Thread.sleep(5); // 5ms 지연 (기존 8ms에서 감소)
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     }
                 }
             }
             
-            // 메모리 작업
-            for (int i = 0; i < Math.min(100, tempMemory.size()); i++) {
+            // 가벼운 메모리 작업
+            for (int i = 0; i < Math.min(20, tempMemory.size()); i++) {
                 byte[] memory = tempMemory.get(i);
-                for (int j = 0; j < 8000; j += 40) {
+                for (int j = 0; j < 2000; j += 100) {
                     if (j < memory.length) {
                         memory[j] = (byte) random.nextInt(256);
                     }
@@ -166,6 +185,19 @@ public class MemoryLeakServlet extends HttpServlet {
             
         } finally {
             tempMemory.clear();
+        }
+    }
+    
+    // 기본 CPU 작업 (가벼운 수준)
+    private void performBasicCPUWork() {
+        long iterations = 100000 + random.nextInt(200000); // 기존 300000-700000에서 감소
+        double result = 0;
+        for (long i = 0; i < iterations; i++) {
+            result += Math.sqrt(i) * Math.sin(i % 1000);
+        }
+        
+        if (result > Double.MAX_VALUE - 1000) {
+            System.out.println("Basic CPU work result: " + result);
         }
     }
     

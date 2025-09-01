@@ -35,8 +35,8 @@ public class InfiniteLoopServlet extends HttpServlet {
         out.println("<p style='color: red; font-size: 20px;'><b>무한루프 시작! CPU 100% 사용 예정!</b></p>");
         out.flush(); // 즉시 클라이언트로 전송
         
-        // 강력한 로깅
-        System.out.println("=".repeat(80));
+        // 강력한 로깅 (Java 8 호환)
+        System.out.println("================================================================================");
         System.out.println(String.format(
             "[%s] 🚨 INFINITE LOOP START 🚨", startTime
         ));
@@ -46,7 +46,7 @@ public class InfiniteLoopServlet extends HttpServlet {
         System.out.println(String.format(
             "Active Loops: %d", activeLoops.get()
         ));
-        System.out.println("=".repeat(80));
+        System.out.println("================================================================================");
 
         // 여러 종류의 CPU 집약적 무한루프
         String loopType = request.getParameter("type");

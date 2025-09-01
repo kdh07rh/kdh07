@@ -32,7 +32,7 @@ public class DiskIoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String logCountStr = request.getParameter("logCount");
-        int logCount = 10000; // Default value
+        int logCount = 20000; // Default value
         if (logCountStr != null && !logCountStr.isEmpty()) {
             try {
                 logCount = Integer.parseInt(logCountStr);

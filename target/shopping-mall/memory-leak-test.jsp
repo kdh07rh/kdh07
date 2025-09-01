@@ -105,9 +105,9 @@
         <div class="alert alert-success" role="alert">
             <h5>🛡️ Built-in Safety Features</h5>
             <ul class="mb-0">
-                <li><strong>Memory Limit:</strong> Maximum 120MB leak prevention</li>
-                <li><strong>Dynamic Control:</strong> Automatic cleanup at 80% memory usage</li>
-                <li><strong>Periodic Cleanup:</strong> Every 30 requests removes 40% old memory</li>
+                <li><strong>Memory Limit:</strong> Maximum ${maxLeakCapacity}MB leak prevention</li>
+                <li><strong>Dynamic Control:</strong> Automatic cleanup at 85% memory usage</li>
+                <li><strong>Periodic Cleanup:</strong> Every 80 requests removes 15% old memory</li>
                 <li><strong>Gradual Pressure:</strong> Controlled memory allocation based on current usage</li>
                 <li><strong>WAS Protection:</strong> Prevents OutOfMemoryError crashes</li>
             </ul>
@@ -158,15 +158,22 @@
                         } else if (usagePercent > 70) {
                         %>
                             <div class="alert alert-warning p-2">
-                                <strong>⚠️ Moderate Pressure:</strong> Applying 5-15MB memory leaks 
-                                with temporary memory pressure work.
+                                <strong>⚠️ High Pressure:</strong> Applying 20-35MB moderate memory leaks 
+                                with light memory pressure work and basic CPU work.
+                            </div>
+                        <%
+                        } else if (usagePercent > 50) {
+                        %>
+                            <div class="alert alert-info p-2">
+                                <strong>🔄 Medium Pressure:</strong> Applying 10-25MB gradual memory leaks 
+                                with light memory pressure work.
                             </div>
                         <%
                         } else {
                         %>
-                            <div class="alert alert-info p-2">
-                                <strong>🚀 Building Pressure:</strong> Applying aggressive 15-30MB 
-                                memory leaks with full memory pressure work.
+                            <div class="alert alert-success p-2">
+                                <strong>🚀 Safe Building Mode:</strong> Applying 5-15MB safe memory leaks 
+                                with basic CPU work for monitoring.
                             </div>
                         <%
                         }
@@ -176,11 +183,11 @@
                         <h6>Next Cleanup:</h6>
                         <%
                         long reqCount = (Long)request.getAttribute("requestCount");
-                        long nextCleanup = 30 - (reqCount % 30); // 50 → 30으로 변경
+                        long nextCleanup = 80 - (reqCount % 80);
                         %>
                         <div class="alert alert-info p-2">
                             <strong>🔄 Automatic cleanup in:</strong> <%= nextCleanup %> requests<br>
-                            <small>Periodic cleanup removes 40% of leaked memory every 30 requests</small>
+                            <small>Periodic cleanup removes 15% of leaked memory every 80 requests</small>
                         </div>
                     </div>
                 </div>

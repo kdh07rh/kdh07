@@ -10,7 +10,8 @@
     <div class="container">
         <h1 class="my-4">External API Test Results</h1>
         <div class="alert alert-warning" role="alert">
-            This page simulates a blocking call to a slow external API with variable delay times (3-10 seconds).
+            This page makes a real HTTP call to an external API (httpbin.org) with variable delay times (3-15 seconds).
+            <br><small>Falls back to local simulation if external API is unavailable.</small>
         </div>
         
         <div class="card">
@@ -33,9 +34,11 @@
                             <li class="list-group-item">
                                 <strong>Status:</strong> 
                                 <% if (request.getAttribute("errorMessage") != null) { %>
-                                    <span class="badge bg-warning">Simulated (Network Issue)</span>
+                                    <span class="badge bg-warning">Fallback (Network Issue)</span>
+                                <% } else if (Boolean.TRUE.equals(request.getAttribute("isRealCall"))) { %>
+                                    <span class="badge bg-success">Real External HTTP Call</span>
                                 <% } else { %>
-                                    <span class="badge bg-success">External API Success</span>
+                                    <span class="badge bg-info">Simulated Delay</span>
                                 <% } %>
                             </li>
                         </ul>
